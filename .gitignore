@@ -1,0 +1,10 @@
+package
+.package
+/package
+./package
+.Messages
+.Messages/
+package/Messages
+/package/Messages/
+.DS_Store
+.DS_Store/
