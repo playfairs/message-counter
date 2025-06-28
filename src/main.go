@@ -10,16 +10,18 @@ import (
 )
 
 type Message struct {
-    ID        interface{} `json:"ID"`
-    Timestamp string      `json:"Timestamp"`
-    Contents  string      `json:"Contents"`
-    Attachments string    `json:"Attachments"`
+    ID         interface{} `json:"ID"`
+    Timestamp  string      `json:"Timestamp"`
+    Contents   string      `json:"Contents"`
+    Attachments string     `json:"Attachments"`
 }
 
 func main() {
     root := "./package/Messages"
     totalMessages := 0
     totalChannels := 0
+    maxMessages := 0
+    maxChannel := ""
 
     files, err := ioutil.ReadDir(root)
     if err != nil {
@@ -33,10 +35,17 @@ func main() {
             msgCount := countMessagesInChannel(channelPath)
             totalChannels++
             totalMessages += msgCount
+            if msgCount > maxMessages {
+                maxMessages = msgCount
+                maxChannel = f.Name()
+            }
         }
     }
 
     fmt.Printf("You have sent %d messages across %d channels\n", totalMessages, totalChannels)
+    if maxChannel != "" {
+        fmt.Printf("Your most active channel is %s with %d messages\n", maxChannel, maxMessages)
+    }
 }
 
 func countMessagesInChannel(channelPath string) int {
